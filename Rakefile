@@ -11,6 +11,12 @@ namespace :db do
     ActiveRecord::Migrator.migrate('db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil )
   end
 
+  desc "Seeds database with some data"
+  task :seed => :environment do
+    require File.join('.', 'application')
+    require File.join(Application::ROOT, 'db', 'seeds')
+  end
+
   desc "Create the current database"
   task :create do
     db_config = YAML::load(File.open('config/database.yml'))
